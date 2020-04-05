@@ -11,15 +11,14 @@ import java.util.Random;
  *
  * @author Hasan
  */
-public class SingletonAkilliCihaz implements Observer {
+public class SingletonAkilliCihaz implements Observer, SicaklikInterface, SogutucuInterface {
 
     private static SingletonAkilliCihaz instange = null;
     private Integer sicaklik;
     private Boolean durum;
 
     private SingletonAkilliCihaz() {
-        Random r = new Random(); //random sınıfı
-        sicaklik = r.nextInt(50);
+        sicaklikOku();
         durum = false;
     }
 
@@ -34,11 +33,34 @@ public class SingletonAkilliCihaz implements Observer {
     @Override
     public void update(Boolean durum) {
         if (durum) {
-            System.out.println("Soğutucu açıldı");
+            this.sogutucuAc();
         } else {
-            System.out.println("Soğutucu kapatıldı");
+            this.sogutucuKapat();
         }
-        this.setDurum(durum);
+
+    }
+
+    @Override
+    public void sicaklikOku() {
+        Random r = new Random(); //random sınıfı
+        sicaklik = r.nextInt(50);
+    }
+
+    @Override
+    public Integer sicaklikGonder() {
+        return sicaklik;
+    }
+
+    @Override
+    public void sogutucuAc() {
+        System.out.println("Soğutucu açıldı");
+        this.durum = true;
+    }
+
+    @Override
+    public void sogutucuKapat() {
+        System.out.println("Soğutucu kapatıldı");
+        this.durum = false;
     }
 
     /**
@@ -79,8 +101,4 @@ public class SingletonAkilliCihaz implements Observer {
     /**
      * @param durum the durum to set
      */
-    public void setDurum(Boolean durum) {
-        this.durum = durum;
-    }
-
 }
